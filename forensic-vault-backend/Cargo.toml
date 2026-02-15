@@ -1,0 +1,21 @@
+[package]
+name = "forensic-vault-backend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# The Web Server (Axum)
+axum = "0.7"
+# Async Runtime (The engine that runs the code)
+tokio = { version = "1.0", features = ["full"] }
+# Database Driver
+mongodb = { version = "2.8", features = ["tokio-runtime"] }
+# Serial Port (To talk to the Shrike-Lite later)
+serialport = "4.3"
+# JSON handling
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+# For timestamps
+chrono = { version = "0.4", features = ["serde"] }
+# Enabling Cross-Origin requests (so your Frontend can talk to this Backend)
+tower-http = { version = "0.5", features = ["cors"] }
