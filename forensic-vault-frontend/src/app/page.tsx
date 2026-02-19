@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+// Standard Next.js structure ensures logic remains decoupled
 interface ForensicLog {
   timestamp: string;
   protocol: string;
@@ -16,19 +17,21 @@ export default function Home() {
 
   const fetchLogs = async () => {
     try {
-      // Using the direct IP address for better stability
+      // Points to the Axum server running our Serial Bridge
       const response = await axios.get("http://127.0.0.1:4000/logs");
-      setLogs(response.data);
-      setStatus("SYSTEM ONLINE // MONITORING");
+      // Reverse the array so that the newest hardware alerts appear at the top
+      setLogs(response.data.reverse());
+      setStatus("SYSTEM ONLINE // MONITORING SERIAL PORTS");
     } catch (error) {
       console.error("Connection failed");
-      setStatus("ERROR: BACKEND UNREACHABLE");
+      setStatus("ERROR: VAULT_BACKEND_OFFLINE");
     }
   };
 
   useEffect(() => {
     fetchLogs();
-    const interval = setInterval(fetchLogs, 5000);
+    // 2-second interval for faster real-time hardware reporting
+    const interval = setInterval(fetchLogs, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -36,7 +39,7 @@ export default function Home() {
     <main className="p-10 min-h-screen bg-black text-green-500 font-mono">
       <div className="border-2 border-green-500 p-6 mb-10 bg-green-900 bg-opacity-10">
         <h1 className="text-4xl font-bold tracking-tighter">
-          VAULT_DASHBOARD_v1.1
+          VAULT_DASHBOARD_v1.2
         </h1>
         <p
           className={`mt-2 text-xs ${status.includes("ERROR") ? "text-red-500 animate-pulse" : "text-green-700"}`}
@@ -53,7 +56,7 @@ export default function Home() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="bg-black border border-green-500 p-2 text-white w-full max-w-xs focus:outline-none focus:ring-1 focus:ring-green-400"
-            placeholder="Type 'admin123'..."
+            placeholder="Type 'admin123' to reveal payloads..."
           />
         </div>
       </div>
@@ -73,18 +76,20 @@ export default function Home() {
                 key={index}
                 className="border-b border-green-900 hover:bg-green-800 hover:bg-opacity-20 transition cursor-pointer"
               >
-                <td className="p-4 text-sm">{log.timestamp}</td>
-                <td className="p-4 font-bold text-white text-xs">
+                <td className="p-4 text-xs text-gray-400">
+                  {new Date(log.timestamp).toLocaleString()}
+                </td>
+                <td className="p-4 font-bold text-blue-400 text-xs uppercase">
                   {log.protocol}
                 </td>
                 <td className="p-4 text-xs">
                   {password === "admin123" ? (
-                    <span className="text-blue-400 font-bold tracking-widest">
+                    <span className="text-red-500 font-bold tracking-tight">
                       {log.payload}
                     </span>
                   ) : (
                     <span className="text-green-900 select-none">
-                      ••••••••••••••••
+                      [DATA_ENCRYPTED_BY_VAULT]
                     </span>
                   )}
                 </td>
@@ -93,8 +98,8 @@ export default function Home() {
           </tbody>
         </table>
         {logs.length === 0 && (
-          <div className="p-20 text-center text-green-900">
-            NO DATA IN VAULT. RUN THE SIMULATOR COMMAND IN TERMINAL.
+          <div className="p-20 text-center text-green-900 animate-pulse">
+            IDLE // WAITING FOR HARDWARE INTERRUPT...
           </div>
         )}
       </div>
