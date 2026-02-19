@@ -1,0 +1,36 @@
+Timing Summary
+==============
+
+   PLACER-ESTIMATED-TIMING TSMC 40nm ULP tt1p1v25c_Typical
+
+         Group  No. Clocks  No. Clock Pairs  WNS(ps)  TNS(ps)  TNS Endpoints  WHS(ps)  THS(ps)  THS Endpoints
+   -----------  ----------  ---------------  -------  -------  -------------  -------  -------  -------------
+
+
+
+
+Clocks
+======
+
+            Clock    Clock net        Group  Constrained Period(ps)      Waveform(ps)   Achievable Period(ps)  Achievable Frequency(MHz)
+   --------------  -----------  -----------  ----------------------  -----------------  ---------------------  -------------------------
+
+
+
+
+Clock Relationships
+===================
+
+       From Clock        To Clock               Group    Endpoints     WNS(ps)    TNS(ps)  TNS Endpoints     WHS(ps)    THS(ps)  THS Endpoints
+   --------------  --------------  ------------------  -----------  ----------  ---------  -------------  ----------  ---------  -------------
+
+
+
+
+
+
+
+
+
+
+

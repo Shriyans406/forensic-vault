@@ -1,0 +1,51 @@
+Timing Summary
+==============
+
+   POST-ROUTE
+
+                  Group  No. Clocks  No. Clock Pairs  WNS(ps)  TNS(ps)  TNS Endpoints      
+            -----------  ----------  ---------------  -------  -------  -------------      
+   <UDEF_virtual_clock>           1                0     +INF        0              0      
+
+
+
+
+Clocks
+======
+
+            Clock      Clock net                 Group  Constrained Period(ps)      Waveform(ps)   Achievable Period(ps)  Achievable Frequency(MHz)
+   --------------    -----------           -----------  ----------------------  -----------------  ---------------------  -------------------------
+    virtual_clock  virtual_clock  <UDEF_virtual_clock>           (auto) 2000            (0,1000)                      0                       +INF 
+
+
+
+
+Clock Relationships
+===================
+
+       From Clock        To Clock                 Group    Endpoints     WNS(ps)    TNS(ps)  TNS Endpoints
+   --------------  --------------    ------------------  -----------  ----------  ---------  -------------
+    virtual_clock   virtual_clock  <UDEF_virtual_clock>            0                                     0
+
+
+
+
+Timing Details for Clock Pair virtual_clock and virtual_clock
+=============================================================
+
+       From Clock        To Clock                 Group    Endpoints     WNS(ps)    TNS(ps)  TNS Endpoints
+   --------------  --------------    ------------------  -----------  ----------  ---------  -------------
+    virtual_clock   virtual_clock  <UDEF_virtual_clock>            0                                     0
+
+   No path.
+
+
+
+
+
+
+
+
+
+
+
