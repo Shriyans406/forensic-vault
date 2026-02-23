@@ -3,7 +3,7 @@
 #include <Shrike.h>
 
 // Create objects for the Vault
-Shrike fpga;
+ShrikeFlash fpga;
 const int TRIGGER_PIN = 2; 
 bool alertSent = false;
 
