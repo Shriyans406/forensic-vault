@@ -147,6 +147,6 @@ Placement timing:
 --------------  -----------  -------------------------
 
 
-Min-placement step ends: Delay and congestion estimation (fastest_delay=0 gentable=0 mode=1). Runtime: 0:0:5 (CPU time), 0:0:5 (real time); peak memory: 1374MB.
+Min-placement step ends: Delay and congestion estimation (fastest_delay=0 gentable=0 mode=1). Runtime: 0:0:10 (CPU time), 0:0:10 (real time); peak memory: 1374MB.
 
 

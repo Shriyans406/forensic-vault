@@ -1,4 +1,4 @@
-LOG STARTS The current time is Thu Feb 19 15:59:16 2026
+LOG STARTS The current time is Thu Feb 19 18:24:31 2026
 TA took 0 seconds.
 Set ARRAYINFO: 32x32
 ARRAYINFO: locs_per_tile=[32,32] pos_interval=[10,10] boundary_penalty=[20,10] l_shift_x0,xmult,yvalue=<1,3,0> max_iob_width=4 is_x2=0 clock=<max-num=2,max-inv=1,inv-noninv-as-one=false,ram-independent=false>
@@ -51,7 +51,7 @@ Layer[RCLT] has 0/0 sites, total_cap=0
 Setup 40 LM mapping.
 Layer[ZIOB] has 0/0 sites, total_cap=0
 TA took 0 seconds.
-LOG ENDS The current time is Thu Feb 19 15:59:19 2026
+LOG ENDS The current time is Thu Feb 19 18:24:33 2026
 
 
 

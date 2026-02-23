@@ -2,18 +2,18 @@
 
 (* hdlname = "\\main" *)
 (* top =  1  *)
-(* src = "../src/main.v:1.1-15.10" *)
+(* src = "../src/main.v:2.1-16.10" *)
 module main(pin_sda, pin_scl, trigger_out, trigger_oe);
-  (* src = "../src/main.v:3.11-3.18" *)
+  (* src = "../src/main.v:4.11-4.18" *)
   input pin_scl;
   wire pin_scl;
-  (* src = "../src/main.v:2.11-2.18" *)
+  (* src = "../src/main.v:3.11-3.18" *)
   input pin_sda;
   wire pin_sda;
-  (* src = "../src/main.v:5.12-5.22" *)
+  (* src = "../src/main.v:6.12-6.22" *)
   output trigger_oe;
   wire trigger_oe;
-  (* src = "../src/main.v:4.12-4.23" *)
+  (* src = "../src/main.v:5.12-5.23" *)
   output trigger_out;
   wire trigger_out;
   (* module_not_derived = 32'd1 *)

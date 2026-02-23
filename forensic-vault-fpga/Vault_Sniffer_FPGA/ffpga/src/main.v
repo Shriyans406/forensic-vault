@@ -1,3 +1,4 @@
+(*top*)
 module main (
     input pin_sda,      // Data Line
     input pin_scl,      // Clock Line

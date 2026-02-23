@@ -1,15 +1,15 @@
-LOG STARTS The current time is Thu Feb 19 15:59:18 2026
+LOG STARTS The current time is Thu Feb 19 18:24:38 2026
 TA took 0 seconds.
-LOG ENDS The current time is Thu Feb 19 15:59:22 2026
+LOG ENDS The current time is Thu Feb 19 18:24:38 2026
 
 
 
-The current time is Thu Feb 19 15:59:22 2026
+The current time is Thu Feb 19 18:24:39 2026
 CPUs=4
 EXE="C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23\eda-placer.exe"
 BuildDir=C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23
 BuildPath="C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23"
-CWD=C:\Users\HP\AppData\Local\Temp\YckzLKWD\out\minplacer\00000_pa00_00003_wl
+CWD=C:\Users\HP\AppData\Local\Temp\MlwHQkLh\out\minplacer\00000_pa00_00003_wl
 LogFile=minplacer_00000_pa00_00003.log
 PrintScreen=..\_00000_pa00_stdout.txt
 Command line: C:\Program Files\Renesas Electronics\Go Configure Software Hub\external\eda-placer\v23\eda-placer.exe -print_screen ..\_00000_pa00_stdout.txt -eflx_call_minplacer 00000_pa00_00003_wl__out__main
@@ -164,96 +164,9 @@ pDelayLibIni read 0 in-tile and 255 cross-tile data points (220 extrapolated) fr
 pDelayLibIni. pdelay_estimate_pppff_delay=120
 TileRange read: File is not given. Use whole chip.
 Reading timing_def file ..\..\minplacer\00000_pa00_00002_setup\minplacer.timing_def
-pPipeAlloc: OptMode=1 PppFfInsertDone=0 MinPipeRtDly=98 #Chain=0 AveChainLen=0.0 MaxChainLen=0 #Net=0 AveChainFan=0.0 MaxChainFan=0 #MixedZeroFan=0 Opt_UseLatency=0 OptLine_RightSlack_WorseThreshold=100
-(0): Ini TileRange={0,1; 0,1}. IsTiny=0 IsLowUtil=0. CurMem=236040192 PeakMem=369684480
-ALWAYS_CLKPLC=0
-RandomPlacement ends.
-FORCE(1): Initial random illegal placement generated.
-FORCE(1): Initial random placement. TWL_WLSYS=360 (150,210)
-PANN_TILERANGE LayerMask=38 TileRange={0,1; 0,1} RangeDivider=4 WL=834 (57, 777) StartingIter=0 NumIters=1
-PANN_TILERANGE ENDS TIMESPENT=0
-PANN_TILERANGE LayerMask=4 TileRange={0,1; 0,1} RangeDivider=4 WL=390 (390, 0) StartingIter=0 NumIters=1
-PANN_TILERANGE ENDS TIMESPENT=0
-PANN_TILERANGE LayerMask=2 TileRange={0,1; 0,1} RangeDivider=4 WL=1053 (390, 663) StartingIter=0 NumIters=1
-PANN_TILERANGE ENDS TIMESPENT=0
-PANN_TILERANGE LayerMask=1 TileRange={0,1; 0,1} RangeDivider=4 WL=1290 (390, 900) StartingIter=0 NumIters=1
-PANN_TILERANGE Add LAYER_M to the layermask.
-Improving the placement of 1 instances for resource type(s) of RBB-L RBB-M: ...........................................................................................................
-PANN_TILERANGE  (iter=0) WL=120 (30, 90) TIMESPENT=0
-PANN_TILERANGE ENDS TIMESPENT=0
-CROSS-TILE STAT: [0]=3
-Wrote 1 RBB-locations out of 1 core insts and 0 chained insts to EFLX file ..\..\minplacer\00000_pa00_00003_wl\minplacer_rbbloc.txt.
-Wrote 3 RBB-locations out of 3 IOB insts to EFLX file ..\..\minplacer\00000_pa00_00003_wl\minplacer_rbbloc.txt.
-Wrote 0 RBB-locations out of 3 INTIOB insts to EFLX file ..\..\minplacer\00000_pa00_00003_wl\minplacer_rbbloc.txt.
-CLOCKPLAN_INI_NETLIST: NUM_CLOCKS=1 NUM_PINSTS=4
-	 #Inst/Usage        L           M         DSP       SPRAM       UPRAM       2PRAM         IOB        ZIOB        NCLT        RCLT      
-	   CLOCK[ 0]*                                                                                                                         
-	   NON_CLOCK      1(    1)                                                                                                            
-CLOCKPLAN_INI_GEO: NUM_TILE_SLICES=1/1
-{Rsc/Util/MinThre={L=140/1/50 ,M=40/0/8 ,DSP=0/0/4 ,SPRAM=0/0/0 ,UPRAM=0/0/0 ,2PRAM=0/0/0 ,IOB=184/3/16 ,ZIOB=0/0/0 ,NCLT=0/0/0 ,RCLT=0/0/0}
-CLOCKPLAN_INI_PORTLOCKS
-	CLOCK[0]* port locks:
-BuildGaps
-	GAPS[0]: - -
-	GAPS[1]: - -
-CreateReachables:
-	CLOCK[0] reachables: [0,0]
-	CLOCK[0] distance: 0
-pClockAap: #TIlE=[1,1]
-#Parts=1
-	Part[0]: [0,0] W1 W0 E1 E0 S1 S0 N1 N0
-BuildRelationalGroups: PrProperty=<none>
-#Group=1
-	Group: #Clocks=1 DIRBM=NONE
-		Clock ID=0 #LoadParts=1 DIRBM=NONE
-			LoadPart[0]: DIRBM=NONE [0,0] COL=0 ROW=0 
-#Unassigned(align)=1. Initial filtering of signle-choices.
-#Unassigned(align)=1. Start working on aligned-choices.
-	GROUP(CLK=0):
-		PER_TILE_PORT: {EW}=P ASSIGN([0,0]E1=0) OK
-#Unassigned(noalign)=0. Work on the remainder with any-choices.
-#AssignedSingle=0 #AssignedAligned=1 #AssignedAny=0 #Unassigned=0
-=================================================================================================================
-#Parts=1
-	Part[0]: [0,0] W1 W0 E1=0 E0 S1 S0 N1 N0
-#Group=1
-	Group: #Clocks=1 DIRBM=EW
-		Clock ID=0 #LoadParts=1 DIRBM=EW
-			LoadPart[0]: DIRBM=EW [0,0] COL=0 ROW=0  ASSIGNED_PORT= [0,0]E1=0
-pClockAap: SUCCESSFUL.
-ClockPortFile ..\..\minplacer\00000_pa00_00003_wl\minplacer_clkloc.txt written.
 
-*********************************** TILE REPORT ***************************************
-|------------------------|
-|TILE_X0Y0               |
-|#INST=4                 |
-|#CLK=1 #INVCLK=0        |
-|#ERAM_CP    0           |
-|#         0   0         |
-|#           0           |
-|*                       |
-|eb0                     |
-|L=1 C0                  |
-|IOB=3 C3                |
-|------------------------|
-CLUSTER[0] LAYER0=L TILE=[0,0] CLK=<0,-1> ERAMCLK=<1,0> REGION=<none>
- {L=1 C0 IOB=3 C3 LCHAIN=0 DCHAIN=0} #NEI=0 REACHABLES:
-CLOCK[0] #LockedPort=0 #AssignedPort=1 #OutputPort=0 TX0Y0={#Cluster=1 L=1 IOB=3}
-*********************************** TILE REPORT ***************************************
-
-
-Placement timing:
-         Clock        Group  Achievable Frequency(MHz)
---------------  -----------  -------------------------
-
-
-pDelayLibFin
-(54): Fin. CurMem=31973376 PeakMem=369684480
-pProblemFin.
-Min-placement step ends: Global placement and legalization. Runtime: 0:0:10 (CPU time), 0:0:10 (real time); peak memory: 1304MB.
-
-
-The current time is Thu Feb 19 15:59:32 2026
+FATAL ERROR: Memory allocation failure for size 134217728 from line 12 in C:\fanmo\src\trunk\base\bhash.cpp
+Fatal error at line 167 in file C:\fanmo\src\trunk\base\bmem.cpp
 
 
 
