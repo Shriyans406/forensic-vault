@@ -36,15 +36,17 @@ async fn main() {
 
     // --- PHASE 3: SPAWN SERIAL BRIDGE WORKER ---
     // This runs in the background so the web server stays active
+    // --- PHASE 3: THE BACKGROUND SERIAL BRIDGE ---
     let serial_col = collection.clone();
     tokio::spawn(async move {
-        println!("Serial Bridge: Monitoring ports...");
+        println!("Serial Bridge: Initializing Port-Agnostic Watcher...");
+        
         loop {
-            // Get all available ports (Port-Agnostic)
+            // 1. Scan for all available COM ports automatically
             let ports = serialport::available_ports().unwrap_or_default();
             
             for p in ports {
-                // Attempt to open the port at 115200 baud (MCU speed)
+                // 2. Attempt to open the port at 115200 baud (matching your MCU code)
                 if let Ok(port) = serialport::new(&p.port_name, 115_200)
                     .timeout(Duration::from_millis(500))
                     .open() 
@@ -52,33 +54,44 @@ async fn main() {
                     let mut reader = BufReader::new(port);
                     let mut line = String::new();
 
-                    println!("Serial Bridge: Linked to {}. Watching for I2C events...", p.port_name);
+                    println!("Bridge Linked: {} [Watching for I2C Events]", p.port_name);
 
                     loop {
                         line.clear();
+                        // 3. Read data from the RP2040
                         if reader.read_line(&mut line).is_ok() {
                             let msg = line.trim();
 
-                            // Detect the specific alert from your RP2040
+                            // 4. Trigger logic when the FPGA sends a signal to the MCU
                             if msg == "ALERT:I2C_START_DETECTED" {
-                                println!("[!] HARDWARE ALERT: I2C Start Detected by FPGA!");
+                                println!("[!] CRITICAL: I2C Start Detected by FPGA Sniffer!");
                                 
-                                let new_log = ForensicLog {
+                                let forensic_entry = ForensicLog {
                                     timestamp: Utc::now().to_rfc3339(),
                                     protocol: "I2C".to_string(),
-                                    payload: "Start Condition Detected (Sniffer Phase 1)".to_string(),
+                                    payload: "Unauthorized I2C Start Condition Detected".to_string(),
                                 };
                                 
-                                let _ = serial_col.insert_one(new_log, None).await;
-                                println!("[+] Forensic Log pushed to MongoDB Atlas.");
+                                // 5. Push directly to MongoDB Atlas
+                                if let Err(e) = serial_col.insert_one(forensic_entry, None).await {
+                                    eprintln!("Database Error: {:?}", e);
+                                } else {
+                                    println!("[+] Logged to Cloud: Forensic entry created.");
+                                }
+
+                                // 6. Debounce: Wait 200ms to prevent duplicate logs from one event
+                                tokio::time::sleep(Duration::from_millis(200)).await;
                             }
                         } else {
-                            break; // Connection lost, re-scan ports
+                            // Break inner loop if hardware is disconnected
+                            println!("Connection lost on {}. Re-scanning...", p.port_name);
+                            break; 
                         }
                     }
                 }
             }
-            tokio::time::sleep(Duration::from_secs(2)).await; // Save CPU while scanning
+            // Wait 2 seconds before re-scanning to save CPU
+            tokio::time::sleep(Duration::from_secs(2)).await; 
         }
     });
 
@@ -116,9 +129,17 @@ async fn health_check() -> &'static str {
     "Vault Backend is ONLINE"
 }
 
+// Update this handler to sort by timestamp descending
 async fn get_logs(col: Collection<ForensicLog>) -> Json<Vec<ForensicLog>> {
-    let mut cursor = col.find(None, None).await.expect("Failed to fetch logs");
+    use mongodb::options::FindOptions;
+    
+    // Sort by timestamp descending so newest is always first
+    let filter = doc! {};
+    let find_options = FindOptions::builder().sort(doc! { "timestamp": -1 }).build();
+    
+    let mut cursor = col.find(filter, find_options).await.expect("Failed to fetch logs");
     let mut results = Vec::new();
+    
     while cursor.advance().await.expect("Error advancing cursor") {
         results.push(cursor.deserialize_current().expect("Error deserializing log"));
     }
