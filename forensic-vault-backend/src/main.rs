@@ -37,61 +37,54 @@ async fn main() {
     // --- PHASE 3: SPAWN SERIAL BRIDGE WORKER ---
     // This runs in the background so the web server stays active
     // --- PHASE 3: THE BACKGROUND SERIAL BRIDGE ---
-    let serial_col = collection.clone();
+let serial_col = collection.clone();
     tokio::spawn(async move {
-        println!("Serial Bridge: Initializing Port-Agnostic Watcher...");
-        
+        println!("Serial Bridge: Stabilizing Link...");
         loop {
-            // 1. Scan for all available COM ports automatically
             let ports = serialport::available_ports().unwrap_or_default();
-            
             for p in ports {
-                // 2. Attempt to open the port at 115200 baud (matching your MCU code)
-                if let Ok(port) = serialport::new(&p.port_name, 115_200)
-                    .timeout(Duration::from_millis(500))
+                // SKIP THE PHONE: If you know your phone is always COM3, 
+                // you can add: if p.port_name == "COM3" { continue; }
+                if p.port_name == "COM3" { continue; }
+                
+                if let Ok(mut port) = serialport::new(&p.port_name, 115_200)
+                    .timeout(Duration::from_millis(2000)) // Give it time to breathe
                     .open() 
                 {
                     let mut reader = BufReader::new(port);
                     let mut line = String::new();
 
-                    println!("Bridge Linked: {} [Watching for I2C Events]", p.port_name);
+                    // Only print "Linked" if we actually get a successful open
+                    println!("Testing Port: {}...", p.port_name);
 
                     loop {
                         line.clear();
-                        // 3. Read data from the RP2040
-                        if reader.read_line(&mut line).is_ok() {
-                            let msg = line.trim();
-
-                            // 4. Trigger logic when the FPGA sends a signal to the MCU
-                            if msg == "ALERT:I2C_START_DETECTED" {
-                                println!("[!] CRITICAL: I2C Start Detected by FPGA Sniffer!");
-                                
-                                let forensic_entry = ForensicLog {
-                                    timestamp: Utc::now().to_rfc3339(),
-                                    protocol: "I2C".to_string(),
-                                    payload: "Unauthorized I2C Start Condition Detected".to_string(),
-                                };
-                                
-                                // 5. Push directly to MongoDB Atlas
-                                if let Err(e) = serial_col.insert_one(forensic_entry, None).await {
-                                    eprintln!("Database Error: {:?}", e);
-                                } else {
-                                    println!("[+] Logged to Cloud: Forensic entry created.");
+                        match reader.read_line(&mut line) {
+                            Ok(_) => {
+                                let msg = line.trim();
+                                if msg == "ALERT:I2C_START_DETECTED" {
+                                    println!("[!] ALERT CAPTURED on {}!", p.port_name);
+                                    let entry = ForensicLog {
+                                        timestamp: Utc::now().to_rfc3339(),
+                                        protocol: "I2C".to_string(),
+                                        payload: "Start Condition Detected".to_string(),
+                                    };
+                                    let _ = serial_col.insert_one(entry, None).await;
                                 }
-
-                                // 6. Debounce: Wait 200ms to prevent duplicate logs from one event
-                                tokio::time::sleep(Duration::from_millis(200)).await;
                             }
-                        } else {
-                            // Break inner loop if hardware is disconnected
-                            println!("Connection lost on {}. Re-scanning...", p.port_name);
-                            break; 
+                            Err(e) if e.kind() == std::io::ErrorKind::TimedOut => {
+                                // This is normal, just keep waiting on THIS port
+                                continue;
+                            }
+                            Err(_) => {
+                                println!("Physical disconnect on {}. Re-scanning...", p.port_name);
+                                break; 
+                            }
                         }
                     }
                 }
             }
-            // Wait 2 seconds before re-scanning to save CPU
-            tokio::time::sleep(Duration::from_secs(2)).await; 
+            tokio::time::sleep(Duration::from_secs(2)).await;
         }
     });
 
